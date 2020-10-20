@@ -1,7 +1,7 @@
 CUDA_PATH=/usr/local/cuda
 HOST_COMPILER ?= g++
 NVCC=${CUDA_PATH}/bin/nvcc -ccbin ${HOST_COMPILER}
-TARGET=main
+TARGET=sobelEdgeDetectionFilter
 
 INCLUDES= -I${CUDA_PATH}/samples/common/inc -I${CUDA_PATH}/include
 NVCC_FLAGS=-m64 -lineinfo
@@ -17,7 +17,7 @@ $(foreach sm, ${SMS}, $(eval GENCODE_FLAGS += -gencode arch=compute_$(sm),code=s
 
 LIBS=`pkg-config opencv --cflags --libs`
 
-SOURCES=main.cpp sobelEdgeDetectionFilter.cpp sobelEdgeDetectionFilter.cu
+SOURCES=*.cpp *.cu # OR main.cpp sobelEdgeDetectionFilter.cpp sobelEdgeDetectionFilter.cu
 
 ${TARGET}:$(SOURCES)
 	${NVCC} ${INCLUDES} ${ALL_CCFLAGS} ${GENCODE_FLAGS} -o ${TARGET} $(SOURCES) $(LIBS)
